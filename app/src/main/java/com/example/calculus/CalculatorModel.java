@@ -8,15 +8,8 @@ public class CalculatorModel {
 
     private State state;
 
-    private Errors error;
-
     private int actionSelected;
 
-    private enum Errors {
-        divisionByZero,
-        zeroAsCapital,
-        OK,
-    }
 
     private enum State {
         firstArgInput,
@@ -26,15 +19,16 @@ public class CalculatorModel {
 
     public CalculatorModel() {
         state = State.firstArgInput;
-        error = Errors.OK;
     }
 
     public void onNumPressed (int buttonId) {
 
         if (state == State.resultShow) {
             state = State.firstArgInput;
-            error = Errors.OK;
             inputStr.setLength(0);
+        }
+        if (inputStr.toString().equals("0")){
+            return;
         }
         if (inputStr.length() <= 12) {
             switch (buttonId) {
@@ -73,7 +67,15 @@ public class CalculatorModel {
     }
 
     public void onActionPressed(int actionId){
-
+        if (actionId == R.id.backspace){
+            if (inputStr.length() != 0) {
+                inputStr.setLength(inputStr.length() - 1);
+            }
+        }
+        if (actionId == R.id.clear){
+            state = State.resultShow;
+            inputStr.setLength(0);
+        }
         if (actionId == R.id.equal && state == State.secondArgInput) {
             secondArg = Integer.parseInt(inputStr.toString());
             state = State.resultShow;
@@ -98,7 +100,13 @@ public class CalculatorModel {
                     }
                     break;
             }
-        } else if (inputStr.length() > 0 && state == State.firstArgInput) {
+        }
+        if (actionId == R.id.equal && state != State.secondArgInput) {
+            firstArg = Integer.parseInt(inputStr.toString());
+            state = State.resultShow;
+            inputStr.setLength(0);
+            inputStr.append(firstArg);
+        }else if (inputStr.length() > 0 && state == State.firstArgInput && actionId != R.id.backspace) {
             firstArg = Integer.parseInt(inputStr.toString());
             state = State.secondArgInput;
             inputStr.setLength(0);
@@ -118,7 +126,8 @@ public class CalculatorModel {
                     break;
             }
         }
-    }
+
+        }
 
     public String getText() {
         return inputStr.toString();

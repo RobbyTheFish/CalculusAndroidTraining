@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
                 R.id.times,
                 R.id.divide,
                 R.id.equal,
+                R.id.backspace,
+                R.id.clear,
         };
 
         text = findViewById(R.id.text);

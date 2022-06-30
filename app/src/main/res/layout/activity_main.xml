@@ -100,18 +100,20 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <View
+            <Button
                 style="@style/calc_button"
-                android:visibility="invisible" />
+                android:id="@+id/clear"
+                android:text="C" />
 
             <Button
                 style="@style/calc_button"
                 android:id="@+id/zero"
                 android:text="0" />
 
-            <View
+            <Button
                 style="@style/calc_button"
-                android:visibility="invisible" />
+                android:id="@+id/backspace"
+                android:text="←" />
 
         </LinearLayout>
 
